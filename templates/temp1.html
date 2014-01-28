@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block content %}
+        <h2>The faces of today's news</h2><br></br>
+
+      <form class="form-search" action="search.html" method="GET">
+      <input type="text" class="input-large search-query" name="q"
+      placeholder="topic or person">
+      </br></br>
+      <button type="submit" class="btn btn-inverse">Search</button>
+      </form>
+      </center>
+      <br>
+      <center>
+          <br><br>
+
+          {% for p in toppeople %}
+            <p>{{ p.name }}</p> 
+            {% if p.imageurl %}
+              <img class="peoplepics" src={{p.imageurl}} alt='Picture Not Loaded'>
+            {% else %}
+              <img class="peoplepics" src='static/images/ppl/unknown.png' alt='Picture Not Loaded'>
+            {% endif %}
+            {% if p.quote %}
+             <p><img src="static/images/quotationmarks/QMleft.png" alt='"' width='50px'>
+              {{p.quote}}
+              <img src="static/images/quotationmarks/QMright.png" alt='"' width='50px'></p>
+            {% endif %}
+            <p>{% for l in p.links %}
+              <p><a href="{{l[0]}}">link</a>{{l[1]}}</p>
+            {%endfor%}</p>
+            <p>.</p>
+          {% endfor %}
+
+{% endblock %}
+

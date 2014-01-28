@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+  {% if toppeople %}
+  <h3 class="search-results">Search results for <em>'{{keyword}}'</em></h3>
+<div style='font-size:10px'><a href="#" class="scroll-link" data-id="faceboard"><i class="fa fa-angle-down"></i></a></div>
+            <p style='clear:both;'></p>
+        </div>
+      </div><!-- row -->
+    </div><!-- /container -->
+  </div><!-- /headerwrap -->
+
+
+   <!-- PORTFOLIO SECTION -->
+    <div id="faceboard">
+      <div class="container">
+        <div class="row mt">
+        <ul class="grid effect-2" id="grid">
+          {% for p in toppeople %}
+          {% if p.imageurl %}
+          <li><a href="#" data-toggle="modal" data-target="#{{p.tagid}}">
+            <img class="peoplepics" src='static/images/download/{{p.person_id}}.jpg'></a></li>
+          {% else %}
+          <li><a href="#" data-toggle="modal" data-target="#{{p.tagid}}">
+            <img src='static/images/ppl/unknown.png'></a></li>
+          {% endif %}
+
+          <!-- Modal -->
+          <div class="modal fade" id={{p.tagid}} tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="myModalLabel">{{p.name}}</h4>
+             </div>
+              <div class="modal-body">
+              {% if p.quote %}
+                <p><img src="static/images/quotationmarks/QMleft.png" alt='"' width='50px'></p>
+                  <p style='text-align: center;'>{{p.quote}}</p>
+                  <p><img src="static/images/quotationmarks/QMright.png" alt='"' width='50px' style='float:right;'></p>
+                {% endif %}
+                </br> 
+                <table>{% for l in p.links %}
+                  <tr>
+                  <td><img src='static/images/sources/{{l[2]}}.jpg' class="source-image" alt={{l[2]}}></td>
+                  <td><a href="{{l[0]}}">{{l[1]}}</a></td>
+                  </tr>
+                {%endfor%}</table>
+              </div>
+              <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+          </div><!-- /.modal -->
+
+          {% endfor %}
+        </ul>
+        </div><!-- row -->
+      </div><!-- container -->
+    </div><!-- portfolio -->
+
+    {% else %}
+    <h3 class="search-results">No news articles found about "{{keyword}}" today.</h3>
+    {% endif %} 
+
+
+{% endblock %}
+

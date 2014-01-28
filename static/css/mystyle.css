@@ -1,0 +1,39 @@
+
+.peoplepics {
+	border-radius: 50px;
+	/*width: 200px;*/
+	/*height: 200px*/
+	/*max-width: 250px;*/
+	/*min-width: 150px;*/
+	/*position: absolute;*/
+	/*clip-path: url(#clipping);*/
+	/*clip-path: rectangle(top="0" left="0" width="50" height="50" rx="0" ry="0");*/
+	/*clip: rectangle(0, 0, 100, 100);*/
+
+}
+
+.form-search {
+	/*width: 70%;*/
+	text-align: center;
+	padding: 50px 0 0 0;
+}
+
+.input-search {
+	width: 600px;
+	font-size: 18pt;
+	border-radius: 15pt;
+	padding-left: 15pt;
+}
+
+.search-results {
+	text-align: center;
+	padding-top: 20px;
+	color: #fff;
+
+}
+
+.source-image{
+	opacity: 1;
+	height:60px;
+	padding-right: 5px; 
+}
