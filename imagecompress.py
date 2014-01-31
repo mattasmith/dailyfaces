@@ -4,7 +4,7 @@ from PIL import Image
 
 
 def resizeImage(image_file):
-	if image_file:
+	try:
 		# get the image's width and height in pixels
 		img = Image.open(image_file)
 		width, height = img.size
@@ -26,6 +26,8 @@ def resizeImage(image_file):
 			resized_image.save(resized_image_file)
 			#
 			print("%s resized" % resized_image_file)
+	except:
+		print 'Cannot open' + image_file
 	
 
 # pick an image file you have in the working directory
