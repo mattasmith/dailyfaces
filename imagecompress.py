@@ -27,11 +27,11 @@ def resizeImage(image_file):
 			#
 			print("%s resized" % resized_image_file)
 	except:
-		print 'Cannot open' + image_file
+		print 'Cannot open ' + image_file
 	
 
 # pick an image file you have in the working directory
 # (or give full path name)
-for i in range(13):
+for i in range(2713):
 	image_file = "static/images/download/%d.jpg" %(i+1)
 	resizeImage(image_file)
