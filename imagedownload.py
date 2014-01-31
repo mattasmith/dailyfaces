@@ -6,6 +6,8 @@ import urllib
 import MySQLdb as mdb
 import urllib2
 import json
+from imagecompress import resizeImage
+
 
 def bing_search(query, search_type):
     #search_type: Web, Image, News, Video
@@ -57,7 +59,9 @@ for row in rows:
         cur.execute(sql, (imageurl, person) )
         print row['id']
         try:
-        	urllib.urlretrieve(imageurl, "static/images/download/%s.jpg" %  str(row['id']) )
+            urllib.urlretrieve(imageurl, "static/images/download/%s.jpg" %  str(row['id']) )
+            # shrink image to 1000px max
+            resizeImage("static/images/download/%s.jpg")
         except:
 			print 'Unable to download: %s' % row['imageurl']
 
