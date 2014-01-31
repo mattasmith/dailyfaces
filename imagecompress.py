@@ -21,7 +21,7 @@ def resizeImage(image_file):
 
 	# save the resized image to a file
 	# overwrite existing file
-	resized_image_file = "13r.jpg"
+	resized_image_file = image_file
 	resized_image.save(resized_image_file)
 	#
 	print("%s resized" % resized_image_file)
