@@ -61,7 +61,7 @@ for row in rows:
         try:
             urllib.urlretrieve(imageurl, "static/images/download/%s.jpg" %  str(row['id']) )
             # shrink image to 1000px max
-            resizeImage("static/images/download/%s.jpg")
+            resizeImage("static/images/download/%s.jpg" % str(row['id']) )
         except:
 			print 'Unable to download: %s' % row['imageurl']
 
