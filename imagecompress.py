@@ -17,6 +17,7 @@ def resizeImage(image_file):
 		new_width = int(width*factor)
 		new_height = int(height*factor)
 		resized_image = img.resize((new_width, new_height), Image.ANTIALIAS)
+		print width, height, new_width, new_height
 
 	# save the resized image to a file
 	# overwrite existing file
@@ -24,7 +25,7 @@ def resizeImage(image_file):
 	resized_image.save(resized_image_file)
 	#
 	print("%s resized" % resized_image_file)
-	print width, height, new_width, new_height
+	
 
 # pick an image file you have in the working directory
 # (or give full path name)
