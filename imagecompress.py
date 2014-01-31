@@ -4,15 +4,16 @@ from PIL import Image
 
 
 def resizeImage(image_file):
-	# get the image's width and height in pixels
-	with Image.open(image_file) as img:
+	if image_file:
+		# get the image's width and height in pixels
+		img = Image.open(image_file)
 		width, height = img.size
 
 		# get the largest dimension
 		max_dim = max(img.size)
 
 		if max_dim > 1000:
-		# resize the image using the largest side as dimension
+			# resize the image using the largest side as dimension
 			factor = 1000./max_dim
 			new_width = int(width*factor)
 			new_height = int(height*factor)
