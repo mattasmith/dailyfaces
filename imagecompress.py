@@ -13,7 +13,7 @@ def resizeImage(image_file):
 
 	if max_dim > 1000:
 	# resize the image using the largest side as dimension
-		factor = 1000/max_dim
+		factor = 1000./max_dim
 		new_width = int(width*factor)
 		new_height = int(height*factor)
 		resized_image = img.resize((new_width, new_height), Image.ANTIALIAS)
