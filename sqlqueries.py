@@ -100,7 +100,7 @@ def search_top_people(date, keyword):
 		WHERE entrydate = %s AND keywords REGEXP %s \
 		GROUP BY people3.person \
 		ORDER BY rank DESC \
-		LIMIT 10; ", (date, search_re) ) # get all links to news
+		LIMIT 10; ", (date, search_re) ) # get all links to news # 
 		people_list = cur.fetchall()
 	return people_list
 
