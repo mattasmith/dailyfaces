@@ -8,12 +8,10 @@ import operator
 from datetime import datetime
 import time
 import enchant
+from wikifilter import wiki_search
 
 
-
-
-def extract_names(text):
-	''' simple NLTK function to pull out people referenced by two or three names'''
+def get_place_names():
 	# load all world cities, districts, countries (with name length > 1 word)
 	con = mdb.connect('localhost', 'testuser', 'test123', 'rssfeeddata')
 	with con:
@@ -32,20 +30,42 @@ def extract_names(text):
 		rows = cur.fetchall()
 	district_names = [row['district'] for row in rows]
 	place_names = city_names + country_names + district_names
+	return place_names
+
+
+def filter_names(chunk, place_names):
 	# use this dictionary to throw out bad names
 	word_dict = enchant.Dict("en_US")
+	names = []
+	# if chunk assigned as a person and the number of words is greater than 1, and less than 4, and chunk is not in place_names
+	# I miss some names at the beginning of sentences - nltk wants to split them into separate names
+	if len(chunk.leaves())>1 and len(chunk.leaves())<4 and ' '.join(c[0] for c in chunk.leaves()) not in place_names:
+		# if more than one word in the name is in the pyenchant dictionary, ignore name
+		# remember to consider lowercase words - uppercase words are in pyenchant!
+		num_dict_words = len([w for w in chunk.leaves() if word_dict.check(w[0].lower())])
+		if num_dict_words<2:
+			name = ' '.join(c[0] for c in chunk.leaves())
+			person_bool, wikiname = wiki_search(name)
+			# if a name on wikipedia (or article not found) but no wikiname, use name
+			if person_bool == True and wikiname == None:
+				names.append(name)
+			# if a name on wikipedia (or article not found) and wikiname, use wikiname
+			elif person_bool == True and wikiname != None:
+				names.append(wikiname)
+			# otherwise, filter out name
+			else:
+				print 'Filtering out %s using Wikipedia' %name
+	return names
+
+
+def extract_names(text, place_names):
+	'''  NLTK function to pull out people referenced by two or three names'''
 	names = []
 	for sent in nltk.sent_tokenize(text):
 		for chunk in nltk.ne_chunk(nltk.pos_tag(nltk.word_tokenize(sent))):
 			if hasattr(chunk, 'node'):
-				# if chunk assigned as a person and the number of words is greater than 1, and less than 4, and chunk is not in place_names
-				# I miss some names at the beginning of sentences - nltk wants to split them into separate names
-				if chunk.node=='PERSON' and len(chunk.leaves())>1 and len(chunk.leaves())<4 and ' '.join(c[0] for c in chunk.leaves()) not in place_names:
-					# if more than one word in the name is in the pyenchant dictionary, ignore name
-					# remember to consider lowercase words - uppercase words are in pyenchant!
-					num_dict_words = len([w for w in chunk.leaves() if word_dict.check(w[0].lower())])
-					if num_dict_words<2:
-						names.append(' '.join(c[0] for c in chunk.leaves()))
+				if chunk.node=='PERSON':
+					names = filter_names(chunk, place_names)
 	return names
 
 
@@ -57,6 +77,7 @@ def extract_keywords(text):
 			if tagged[1] in ['NN', 'NNP', 'JJ']:
 				keywords.append(tagged[0])
 	return keywords
+
 
 def extract_newssite(text):
 	''' simple function to get newssource from the link '''
@@ -82,7 +103,7 @@ def extract_newssite(text):
 con = mdb.connect('localhost', 'testuser', 'test123', 'rssfeeddata')
 with con:
 	cur = con.cursor(mdb.cursors.DictCursor)
-	cur.execute("SELECT * FROM news3 WHERE summary !=''  AND entrydate='2014-01-30'") # get all rss data with text descriptions
+	cur.execute("SELECT * FROM news3 WHERE summary !=''  AND entrydate='2014-01-31'") # get all rss data with text descriptions
 	rows = cur.fetchall()
 
 
@@ -94,6 +115,8 @@ with con:
 
 # approach - look through all names, return a dictionary of single names and rss_id mapping them to full names
 
+# get a list of places to filter names against
+place_names = get_place_names()
 
 # for each rss story
 for row in rows:
@@ -104,7 +127,7 @@ for row in rows:
 	keywords = ' '.join(extract_keywords(row['summary']))
 	source = extract_newssite(row['link'])
 	link = row['link']
-	people = extract_names(row['summary'])
+	people = extract_names(row['summary'], place_names)
 	# if there is a person, save rss story as article
 	if people:
 		with con:
