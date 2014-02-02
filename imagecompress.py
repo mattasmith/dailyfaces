@@ -32,6 +32,6 @@ def resizeImage(image_file):
 
 # pick an image file you have in the working directory
 # (or give full path name)
-for i in range(3075):
+for i in range(2713):
 	image_file = "static/images/download/%d.jpg" %(i+1)
 	resizeImage(image_file)

@@ -6,7 +6,7 @@ import urllib
 import MySQLdb as mdb
 import urllib2
 import json
-from imagecompress import resizeImage
+
 
 
 def bing_search(query, search_type):
@@ -17,7 +17,7 @@ def bing_search(query, search_type):
     user_agent = 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; FDM; .NET CLR 2.0.50727; InfoPath.2; .NET CLR 1.1.4322)'
     credentials = (':%s' % key).encode('base64')[:-1]
     auth = 'Basic %s' % credentials
-    url = 'https://api.datamarket.azure.com/Data.ashx/Bing/Search/'+search_type+'?Query=%27'+query+'%27&$top=5&$format=json'
+    url = 'https://api.datamarket.azure.com/Data.ashx/Bing/Search/'+search_type+'?Query=%27'+query+'%27&Adult=%27'+'Strict'+'%27&ImageFilters=%27'+'Size'+'%3aMedium%27&$top=5&$format=json'
     request = urllib2.Request(url)
     request.add_header('Authorization', auth)
     request.add_header('User-Agent', user_agent)
@@ -61,7 +61,7 @@ for row in rows:
         try:
             urllib.urlretrieve(imageurl, "static/images/download/%s.jpg" %  str(row['id']) )
             # shrink image to 1000px max
-            resizeImage("static/images/download/%s.jpg" % str(row['id']) )
+            #resizeImage("static/images/download/%s.jpg" % str(row['id']) )
         except:
 			print 'Unable to download: %s' % row['imageurl']
 
