@@ -71,8 +71,6 @@ def unencode_text(text):
 def pullquotes(content):
 	verblist = ['added', 'says', 'wrote', 'said'] # most important last
 	quotationlist = []
-	# use this to escape html characters
-	html_parser = HTMLParser.HTMLParser()
 	for paragraph in content.split('\n'):
 		matches = re.findall(r'\.*.*?\".*?\".*?\.*', paragraph) 
 		# for each match
@@ -148,6 +146,9 @@ with con:
 		WHERE entrydate='2014-02-03'; ") # get all links to news
 	rows = cur.fetchall()
 
+
+# use this to escape html characters
+html_parser = HTMLParser.HTMLParser()
 
 webtext = {}
 print 'start download'
