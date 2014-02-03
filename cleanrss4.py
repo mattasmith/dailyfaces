@@ -45,16 +45,16 @@ def filter_names(chunk, place_names):
 		num_dict_words = len([w for w in chunk.leaves() if word_dict.check(w[0].lower())])
 		if num_dict_words<2:
 			name = ' '.join(c[0] for c in chunk.leaves())
-			person_bool, wikiname = wiki_search(name)
+			#person_bool, wikiname = wiki_search(name)
 			# if a name on wikipedia (or article not found) but no wikiname, use name
-			if person_bool == True and wikiname == None:
-				names.append(name)
+			#if person_bool == True and wikiname == None:
+			#	names.append(name)
 			# if a name on wikipedia (or article not found) and wikiname, use wikiname
-			elif person_bool == True and wikiname != None:
-				names.append(wikiname)
+			#elif person_bool == True and wikiname != None:
+			#	names.append(wikiname)
 			# otherwise, filter out name
-			else:
-				print 'Filtering out %s using Wikipedia' %name
+			#else:
+			#	print 'Filtering out %s using Wikipedia' %name
 	return names
 
 
