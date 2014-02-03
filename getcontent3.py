@@ -145,7 +145,7 @@ with con:
 	# get links for each unique article
 	cur.execute("SELECT id, link \
 		FROM article3 \
-		WHERE entrydate='2014-02-02'; ") # get all links to news
+		WHERE entrydate='2014-02-03'; ") # get all links to news
 	rows = cur.fetchall()
 
 
