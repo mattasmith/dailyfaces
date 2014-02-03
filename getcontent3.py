@@ -13,12 +13,17 @@ import re
 
 def decode_text(text):
 	try:
-		# remove odd apostrophes, then decode
-		normtext = text.replace(u'\u2019','\'').replace(u'\u2014', '-')
+		# remove odd characters, then decode
+		normtext = text.replace(u'\u2019','\'').replace(u'\u2018','\'')
+		normtext = normtext.replace(u'\xbd','').replace(u'\xa0','')
+		normtext = normtext.replace(u'\u201c','\"').replace(u'\u201d','\"')
+		normtext = normtext.replace(u'\xe9','e').replace(u'\xe0','a').replace(u'\xe8','e').replace(u'\xf8','o').replace(u'\xe1','a')
+		normtext = normtext.replace(u'\u2014', '-').replace(u'\u2013', '-')
+		normtext = normtext.replace(u'\u2026', '...')
+		normtext = normtext.replace(u'\u2009', '')
 		cleantext = normtext.decode('utf8','ignore')
 	except:
 		print 'Error with decoding %s' % text
-		stop
 		cleantext = ''
 	return cleantext
 
