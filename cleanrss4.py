@@ -8,7 +8,7 @@ import operator
 from datetime import datetime
 import time
 import enchant
-from wikifilter import wiki_search
+#from wikifilter import wiki_search
 
 
 def get_place_names():
@@ -39,12 +39,12 @@ def filter_names(chunk, place_names):
 	names = []
 	# if chunk assigned as a person and the number of words is greater than 1, and less than 4, and chunk is not in place_names
 	# I miss some names at the beginning of sentences - nltk wants to split them into separate names
-	if len(chunk.leaves())>1 and len(chunk.leaves())<4 and ' '.join(c[0] for c in chunk.leaves()) not in place_names:
+	if len(chunk.leaves())>1 and len(chunk.leaves())<4 and ' '.join([c[0] for c in chunk.leaves()]) not in place_names:
 		# if more than one word in the name is in the pyenchant dictionary, ignore name
 		# remember to consider lowercase words - uppercase words are in pyenchant!
 		num_dict_words = len([w for w in chunk.leaves() if word_dict.check(w[0].lower())])
 		if num_dict_words<2:
-			name = ' '.join(c[0] for c in chunk.leaves())
+			name = ' '.join([c[0] for c in chunk.leaves()])
 			#person_bool, wikiname = wiki_search(name)
 			# if a name on wikipedia (or article not found) but no wikiname, use name
 			#if person_bool == True and wikiname == None:
