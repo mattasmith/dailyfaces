@@ -11,6 +11,23 @@ import enchant
 #from wikifilter import wiki_search
 
 
+def decode_text(text):
+	try:
+		# remove odd characters, then decode
+		normtext = text.replace(u'\u2019','\'').replace(u'\u2018','\'')
+		normtext = normtext.replace(u'\xbd','').replace(u'\xa0','')
+		normtext = normtext.replace(u'\u201c','\"').replace(u'\u201d','\"')
+		normtext = normtext.replace(u'\xe9','e').replace(u'\xe0','a').replace(u'\xe8','e').replace(u'\xf8','o').replace(u'\xe1','a')
+		normtext = normtext.replace(u'\u2014', '-').replace(u'\u2013', '-')
+		normtext = normtext.replace(u'\u2026', '...')
+		normtext = normtext.replace(u'\u2009', '')
+		cleantext = normtext.decode('utf8','ignore')
+	except:
+		print 'Error with decoding %s' % text
+		cleantext = ''
+	return cleantext
+
+
 def get_place_names():
 	# load all world cities, districts, countries (with name length > 1 word)
 	con = mdb.connect('localhost', 'testuser', 'test123', 'rssfeeddata')
@@ -123,11 +140,12 @@ for row in rows:
 	rss_id = row['id']
 	entrydate = row['entrydate']
 	datepublished = row['pubdate']
-	title = row['title']
+	title = decode_text(row['title'])
 	keywords = ' '.join(extract_keywords(row['summary']))
 	source = extract_newssite(row['link'])
 	link = row['link']
 	people = extract_names(row['summary'], place_names)
+	people = [decode_text(person) for person in people]
 	# if there is a person, save rss story as article
 	if people:
 		with con:
