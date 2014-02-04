@@ -40,7 +40,7 @@ def wiki_search(name):
 	webtext = nltk.clean_html(str(soup))
 	sleep(0.5)
 	# a person if the word born is in the first few paragraphs of wikipedia
-	person_bool = 'born' in webtext[:3000]
+	person_bool = 'born' in webtext[:5000] or 'Early life' in webtext[:5000]
 	# get the name wikipedia thinks the person is
 	wikiname = webtext.split('-')[0].strip()
 	# if the wikiname is really long, probably not a name
