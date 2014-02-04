@@ -8,7 +8,7 @@ import operator
 from datetime import datetime
 import time
 import enchant
-#from wikifilter import wiki_search
+from wikifilter import wiki_search
 
 
 def decode_text(text):
