@@ -33,18 +33,17 @@
         			<h4 class="modal-title" id="myModalLabel">{{p.name}}</h4>
      				 </div>
       				<div class="modal-body">
-        			{% if p.quote %}
-             		<p><img src="static/images/quotationmarks/QMleft.png" alt='"' width='50px'></p>
-              		<p style='text-align: center;'>{{p.quote}}</p>
-              		<p><img src="static/images/quotationmarks/QMright.png" alt='"' width='50px' style='float:right;'></p>
-            		{% endif %}
-            		</br> 
-            		<table>{% for l in p.links %}
+            		<table class="modaltable">{% for l in p.links %}
               		<tr>
-              		<td><img src='static/images/sources/{{l[2]}}.jpg' class="source-image" alt={{l[2]}}></td>
-              		<td><a href="{{l[0]}}" target="_blank">{{l[1]}}</a></td>
+              		<td><a href="{{l[0]}}" target="_blank"><img src='static/images/sources/{{l[2]}}.jpg' class="source-image" alt={{l[2]}}></a></td>
+              		<td><a href="{{l[0]}}" target="_blank" style="font-size: 1.2em">{{l[1]}}</a></td>
               		</tr>
             		{%endfor%}</table>
+                {% if p.quote %}
+                <p><img src="static/images/quotationmarks/QMleft.png" alt='"' width='50px'></p>
+                  <p style='text-align: center;'>{{p.quote}}</p>
+                  <p><img src="static/images/quotationmarks/QMright.png" alt='"' width='50px' style='float:right;'></p>
+                {% endif %}
       				</div>
       				<div class="modal-footer">
        				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -60,7 +59,6 @@
     </div><!-- portfolio -->
 
 
-	
 {% endblock %}
 	
 	
