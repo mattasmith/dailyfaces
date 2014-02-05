@@ -34,6 +34,19 @@
 
 .source-image{
 	opacity: 1;
-	height:60px;
+	height:70px;
 	padding-right: 5px; 
+}
+
+.modaltable td a{
+	color: rgb(100,100,100);
+   display: block;
+}
+.modaltable a:hover{
+	color: rgb(0,0,0);
+   /*background-color: rgb(240,240,240);*/
+}
+
+.modaltable img{
+	opacity: 1;
 }
