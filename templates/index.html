@@ -41,12 +41,10 @@
             		{%endfor%}</table>
                 {% if p.quote %}
                 <br>
-                <tr>
-                <td><img src="static/images/quotationmarks/QMleft2.png" alt='"' width='50px' style='float: left;'></td>
-                  <td>{{p.quote}}</td>
-                  <td><img src="static/images/quotationmarks/QMright2.png" alt='"' width='50px' style='float: right;'></td>
+                <p><img src="static/images/quotationmarks/QMleft.png" alt='"' width='50px' style='float: left;'></p>
+                  <p style="text-align: center">{{p.quote}}</p>
+                  <p><img src="static/images/quotationmarks/QMright.png" alt='"' width='50px' style='float: right;'></p>
                 {% endif %}
-              </tr>
       				</div>
       				<div class="modal-footer">
        				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
