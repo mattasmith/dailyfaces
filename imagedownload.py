@@ -56,10 +56,7 @@ for row in rows:
         person = row['person']
         imageurl = image_search(person)
         sql = "UPDATE people3 SET imageurl=%s WHERE id=%s"
-        try:
-            cur.execute(sql, (imageurl, row['id']) )
-        except:
-
+        cur.execute(sql, (imageurl, row['id']) )
         print row['id']
         try:
             urllib.urlretrieve(imageurl, "static/images/download/%s.jpg" %  str(row['id']) )
