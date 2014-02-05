@@ -43,7 +43,7 @@ def image_search(query):
 
 # load people data from MySQL database
 # connect to the mySQL database rssfeeddata
-con = mdb.connect('localhost', 'testuser', 'test123', 'rssfeeddata')
+con = mdb.connect('localhost', 'testuser', 'test123', 'rssfeeddata', charset='utf8')
 with con:
     cur = con.cursor(mdb.cursors.DictCursor)
     cur.execute("SELECT * FROM people3 WHERE imageurl is NULL") # get all people data who do not have a picture
@@ -55,10 +55,11 @@ for row in rows:
 		cur = con.cursor(mdb.cursors.DictCursor)
         person = row['person']
         imageurl = image_search(person)
-        if imageurl:
-            imageurl.replace(u'\u2019','')
         sql = "UPDATE people3 SET imageurl=%s WHERE id=%s"
-        cur.execute(sql, (imageurl, row['id']) )
+        try:
+            cur.execute(sql, (imageurl, row['id']) )
+        except:
+
         print row['id']
         try:
             urllib.urlretrieve(imageurl, "static/images/download/%s.jpg" %  str(row['id']) )
