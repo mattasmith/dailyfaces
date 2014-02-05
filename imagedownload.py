@@ -55,7 +55,8 @@ for row in rows:
 		cur = con.cursor(mdb.cursors.DictCursor)
         person = row['person']
         imageurl = image_search(person)
-        imageurl.replace(u'\u2019',u'\'')
+        if imageurl:
+            imageurl.replace(u'\u2019',u'\'')
         sql = "UPDATE people3 SET imageurl=%s WHERE id=%s"
         cur.execute(sql, (imageurl, row['id']) )
         print row['id']
