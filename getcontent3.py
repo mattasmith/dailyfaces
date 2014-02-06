@@ -110,16 +110,18 @@ def pullquotes(content):
 						# use len - can get spaces
 						if len(sourcestatement.split(verb)[0]) > 1:
 							sourcetmp = sourcestatement.split(verb)[0]
-							lastword = sourcetmp.split()[-1]
-							if re.match(r'[A-Z]', lastword[0]):
-								# source is all the words (working backwards) while capitals and not punctuation
-								source = sourcesearchreverse(sourcetmp)
+							if sourcetmp:
+								lastword = sourcetmp.split()[-1]
+								if re.match(r'[A-Z]', lastword[0]):
+									# source is all the words (working backwards) while capitals and not punctuation
+									source = sourcesearchreverse(sourcetmp)
 						else:
 							sourcetmp = sourcestatement.split(verb)[1]
-							firstword = sourcetmp.split()[0]
-							if re.match(r'[A-Z]', firstword[0]):
-								# source is all the words while capitals and not punctuation	
-								source = sourcesearchforward(sourcetmp)
+							if sourcetmp:
+								firstword = sourcetmp.split()[0]
+								if re.match(r'[A-Z]', firstword[0]):
+									# source is all the words while capitals and not punctuation	
+									source = sourcesearchforward(sourcetmp)
 			#print completequote, proxystatement
 			if source!=None and completequote!=None:
 				source = unencode_text(source)
