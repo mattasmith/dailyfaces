@@ -110,14 +110,14 @@ def pullquotes(content):
 						# use len - can get spaces
 						if len(sourcestatement.split(verb)[0]) > 1:
 							sourcetmp = sourcestatement.split(verb)[0]
-							if sourcetmp:
+							if sourcetmp.split():
 								lastword = sourcetmp.split()[-1]
 								if re.match(r'[A-Z]', lastword[0]):
 									# source is all the words (working backwards) while capitals and not punctuation
 									source = sourcesearchreverse(sourcetmp)
 						else:
 							sourcetmp = sourcestatement.split(verb)[1]
-							if sourcetmp:
+							if sourcetmp.split():
 								firstword = sourcetmp.split()[0]
 								if re.match(r'[A-Z]', firstword[0]):
 									# source is all the words while capitals and not punctuation	
