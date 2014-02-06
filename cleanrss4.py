@@ -155,30 +155,31 @@ for row in rows:
 			cur.execute(sql, (rss_id, entrydate, datepublished, title, keywords, source, link) )
 		# for each person mentioned in an article, put in people table
 		for person in people:
-			# add to people table
-			with con:
-				cur = con.cursor(mdb.cursors.DictCursor)
-				sql = "SELECT id, person FROM people3 WHERE person=%s"
-				cur.execute(sql, (person,) ) # search for person a
-				personsearch = cur.fetchall()
-			with con:
-				cur = con.cursor(mdb.cursors.DictCursor)
-				# if person not exist, add to people
-				if not personsearch:
-					# CREATE TABLE people3 (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, person TEXT NOT NULL, imageurl TEXT);
-					sql = "INSERT INTO people3 VALUES (NULL, %s, NULL)" # could search for image here
-					cur.execute(sql, (person,) )
-			# add to map_people table
-			with con:
-				cur = con.cursor(mdb.cursors.DictCursor)
-				sql = "SELECT id, person FROM people3 WHERE person=%s"
-				cur.execute(sql, (person,) ) # search for person
-				personsearch = cur.fetchall()	
-			with con:
-				cur = con.cursor(mdb.cursors.DictCursor)		
-				# CREATE TABLE map_people3 (people_id INT NOT NULL, article_id INT NOT NULL);
-				sql = "INSERT INTO map_people3 VALUES (%s, %s)"
-				cur.execute(sql, (personsearch[0]['id'], rss_id ) )
+			if person:
+				# add to people table if person exists
+				with con:
+					cur = con.cursor(mdb.cursors.DictCursor)
+					sql = "SELECT id, person FROM people3 WHERE person=%s"
+					cur.execute(sql, (person,) ) # search for person a
+					personsearch = cur.fetchall()
+				with con:
+					cur = con.cursor(mdb.cursors.DictCursor)
+					# if person not exist, add to people
+					if not personsearch:
+						# CREATE TABLE people3 (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, person TEXT NOT NULL, imageurl TEXT);
+						sql = "INSERT INTO people3 VALUES (NULL, %s, NULL)" # could search for image here
+						cur.execute(sql, (person,) )
+				# add to map_people table
+				with con:
+					cur = con.cursor(mdb.cursors.DictCursor)
+					sql = "SELECT id, person FROM people3 WHERE person=%s"
+					cur.execute(sql, (person,) ) # search for person
+					personsearch = cur.fetchall()	
+				with con:
+					cur = con.cursor(mdb.cursors.DictCursor)		
+					# CREATE TABLE map_people3 (people_id INT NOT NULL, article_id INT NOT NULL);
+					sql = "INSERT INTO map_people3 VALUES (%s, %s)"
+					cur.execute(sql, (personsearch[0]['id'], rss_id ) )
 
 
 
