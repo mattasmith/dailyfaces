@@ -2,6 +2,7 @@
 # retrieve top ten people for homepage
 import MySQLdb as mdb
 import HTMLParser
+import datetime
 
 class person():
 	''' 
@@ -53,6 +54,13 @@ class person():
 
 
 
+def two_days_before(date):
+	'''
+	Given a date, find the day two days before
+	'''
+	dt = datetime.date(*map(int,date.split('-'))) - datetime.timedelta(2)
+	return dt.strftime('%Y-%m-%d')
+
 
 
 def find_top_people(date):
@@ -85,9 +93,10 @@ def search_top_people(date, keyword):
 	Function takes a date and
 	returns list of the top people
 	(as dict with person and people_id keys)
-	on that date. 
+	on that date and previous two days. 
 	'''
-	
+	enddate = date
+	startdate = two_days_before(date)
 	con = mdb.connect('localhost', 'testuser', 'test123', 'rssfeeddata')
 	with con:
 		search_re = '.*[[:<:]]'+keyword+'[[:>:]].*' # create the REGEXP to search with
@@ -97,10 +106,10 @@ def search_top_people(date, keyword):
 		FROM people3 \
 		INNER JOIN map_people3 ON map_people3.people_id=people3.id \
 		INNER JOIN article3 ON map_people3.article_id=article3.id \
-		WHERE entrydate = %s AND keywords REGEXP %s \
+		WHERE entrydate BETWEEN %s AND %s AND keywords REGEXP %s \
 		GROUP BY people3.person \
 		ORDER BY rank DESC \
-		LIMIT 10; ", (date, search_re) ) # get all links to news # 
+		LIMIT 20; ", (startdate, enddate, search_re) ) # get all links to news # 
 		people_list = cur.fetchall()
 	return people_list
 
@@ -165,7 +174,7 @@ def list_to_people(date, people_list):
 			cur.execute("SELECT rss_id, quote, quoter \
 			FROM quotes3 \
 			WHERE quoter REGEXP '.*[[:<:]]%s[[:>:]].*' \
-			ORDER BY rss_id DESC;" % name.split()[-1].replace('\'','\\\'')  ) # need to take care of names with 's
+			ORDER BY rss_id DESC;", (name.split()[-1],) ) # need to take care of names with 's?
 			quote_list = cur.fetchall()
 		# take quotes if the quote is in a current article and quote has more than two words
 		allthequotes = [ (quote_row['quote'], quote_row['rss_id']) for quote_row in quote_list if quote_row['rss_id'] in alltherssids and len(quote_row['quote'].split())>2 ]
