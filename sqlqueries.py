@@ -171,7 +171,7 @@ def list_to_people(startdate, enddate, people_list):
 			# get the quotes
 			cur.execute("SELECT rss_id, quote, quoter \
 			FROM quotes3 \
-			WHERE quoter REGEXP '.*[[:<:]]%s[[:>:]].*' \
+			WHERE quoter REGEXP '.*[[:<:]]'%s'[[:>:]].*' \
 			ORDER BY rss_id DESC;", (name.split()[-1],) ) # need to take care of names with 's?
 			quote_list = cur.fetchall()
 		# take quotes if the quote is in a current article and quote has more than two words
