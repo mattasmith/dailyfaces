@@ -88,15 +88,13 @@ def find_top_people(date):
 
 
 
-def search_top_people(date, keyword):
+def search_top_people(startdate, enddate, keyword):
 	'''
-	Function takes a date and
+	Function takes a date range and
 	returns list of the top people
 	(as dict with person and people_id keys)
-	on that date and previous two days. 
+	on those dates. 
 	'''
-	enddate = date
-	startdate = two_days_before(date)
 	con = mdb.connect('localhost', 'testuser', 'test123', 'rssfeeddata')
 	with con:
 		search_re = '.*[[:<:]]'+keyword+'[[:>:]].*' # create the REGEXP to search with
@@ -115,7 +113,7 @@ def search_top_people(date, keyword):
 
 
 
-def list_to_people(date, people_list):
+def list_to_people(startdate, enddate, people_list):
 	'''
 	Function takes people_id result from SQL query, 
 	finds attributes for each person,
@@ -143,7 +141,7 @@ def list_to_people(date, people_list):
 			FROM people3 \
 			INNER JOIN map_people3 ON map_people3.people_id=people3.id \
 			INNER JOIN article3 ON map_people3.article_id=article3.id \
-			WHERE entrydate = %s AND people_id=%s; ", (date, row['people_id']) ) # get all links to news
+			WHERE entrydate BETWEEN %s AND %s AND people_id=%s; ", (startdate, enddate, row['people_id']) ) # get all links to news
 			article_list = cur.fetchall()
 		allthekeywords = []
 		allthelinks = []
@@ -188,14 +186,16 @@ def peopleinthenews(date='2014-01-14', keyword=None):
 	Function takes date and keywords and returns people
 	as instances of the person class. 
 	'''
+	enddate = date
+	startdate = two_days_before(date)
 	if not keyword:
 		people_list = find_top_people(date)
-		toppeople = list_to_people(date, people_list)
+		toppeople = list_to_people(date, date, people_list)
 		return toppeople
 
 	else:
-		people_list = search_top_people(date, keyword)
-		toppeople = list_to_people(date, people_list)
+		people_list = search_top_people(startdate, enddate, keyword)
+		toppeople = list_to_people(startdate, enddate, people_list)
 		return toppeople
 
 
