@@ -120,7 +120,7 @@ def extract_newssite(text):
 con = mdb.connect('localhost', 'testuser', 'test123', 'rssfeeddata')
 with con:
 	cur = con.cursor(mdb.cursors.DictCursor)
-	cur.execute("SELECT * FROM news3 WHERE summary !=''  AND entrydate='2014-02-17'") # get all rss data with text descriptions
+	cur.execute("SELECT * FROM news3 WHERE summary !=''  AND entrydate='2014-02-18'") # get all rss data with text descriptions
 	rows = cur.fetchall()
 
 
