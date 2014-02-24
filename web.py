@@ -10,12 +10,12 @@ con = mdb.connect('localhost', 'testuser', 'test123', 'rssfeeddata')
 @app.route("/")
 @app.route("/index.html")
 def hello():
-	toppeople = sqlqueries.peopleinthenews('2014-02-23')
+	toppeople = sqlqueries.peopleinthenews('2014-02-24')
 	return render_template('index.html', toppeople=toppeople)
 
 @app.route("/db")
 def top():
-	toppeople = sqlqueries.peopleinthenews('2014-02-23')
+	toppeople = sqlqueries.peopleinthenews('2014-02-24')
 	return toppeople[2].tagid
 
 
@@ -23,7 +23,7 @@ def top():
 def search():
     keyword = request.args.get('q', None)
 
-    toppeople = sqlqueries.peopleinthenews('2014-02-23', keyword)   
+    toppeople = sqlqueries.peopleinthenews('2014-02-24', keyword)   
 
     return render_template('search.html',
             toppeople=toppeople,
