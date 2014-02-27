@@ -110,7 +110,7 @@ def extract_newssite(text):
 	match = re.search(r'http://[\w\.]*\.(\w+\.co\.uk).*', row['link'])
 	if match:
 		return match.group(1)
-	match = None
+	match = ''
 	return match
 
 
