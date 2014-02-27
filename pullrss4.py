@@ -98,7 +98,10 @@ with con:
 		title = unencode_text(title)
  		if 'published_parsed' in entry and entry["published_parsed"] is not None:
  			datepublished = extract_pubdate(entry["published_parsed"])
- 		link = entry["link"]
+ 		try:
+ 			link = entry["link"]
+ 		except:
+ 			link = ''
 		summarytext = extract_summarytext(entry)
 		title = decode_text(title)
 		summarytext = decode_text(summarytext)
