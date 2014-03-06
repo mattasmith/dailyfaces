@@ -9,6 +9,8 @@ from datetime import datetime
 import time
 import enchant
 from wikifilter import wiki_search
+import getopt
+import sys
 
 
 def decode_text(text):
@@ -115,12 +117,21 @@ def extract_newssite(text):
 
 
 
+# starts at the second element of argv since the first one is the script name
+# extraparms are extra arguments passed after all option/keywords are assigned
+# opts is a list containing the pair "option"/"value"
+opts, extraparams = getopt.getopt(sys.argv[1:]) 
+for o,p in opts:
+	if o in ['-d']:
+		currentdate = p
+#currentdate = '2014-02-27'
+
 # load rss data from MySQL database
 # connect to the mySQL database rssfeeddata
 con = mdb.connect('localhost', 'testuser', 'test123', 'rssfeeddata')
 with con:
 	cur = con.cursor(mdb.cursors.DictCursor)
-	cur.execute("SELECT * FROM news3 WHERE summary !=''  AND entrydate='2014-02-27'") # get all rss data with text descriptions
+	cur.execute("SELECT * FROM news3 WHERE summary !=''  AND entrydate=%s", currentdate) # get all rss data with text descriptions
 	rows = cur.fetchall()
 
 

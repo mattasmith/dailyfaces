@@ -142,6 +142,16 @@ def pullquotes(content):
 
 
 
+
+# starts at the second element of argv since the first one is the script name
+# extraparms are extra arguments passed after all option/keywords are assigned
+# opts is a list containing the pair "option"/"value"
+opts, extraparams = getopt.getopt(sys.argv[1:]) 
+for o,p in opts:
+	if o in ['-d']:
+		currentdate = p
+#currentdate = '2014-02-27'
+
 # load rss data from MySQL database
 # connect to the mySQL database rssfeeddata
 con = mdb.connect('localhost', 'testuser', 'test123', 'rssfeeddata',  charset='utf8')
@@ -150,7 +160,7 @@ with con:
 	# get links for each unique article
 	cur.execute("SELECT id, link \
 		FROM article3 \
-		WHERE entrydate='2014-02-27'; ") # get all links to news
+		WHERE entrydate=%s;", currentdate) # get all links to news
 	rows = cur.fetchall()
 
 
