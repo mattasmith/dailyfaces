@@ -6,7 +6,7 @@ import sqlqueries
 
 app = Flask(__name__)
 con = mdb.connect('localhost', 'testuser', 'test123', 'rssfeeddata')
-currentdate = '2014-02-27'
+currentdate = '2014-01-30' # 2014-02-27
 
 @app.route("/")
 @app.route("/index.html")
